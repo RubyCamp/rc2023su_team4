@@ -160,6 +160,3 @@ module Communicator
     end
   end
 end
-
-
-
