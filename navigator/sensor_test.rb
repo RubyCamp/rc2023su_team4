@@ -7,10 +7,7 @@ begin
     puts "starting..."
     brick=EV3::Brick.new(EV3::Connections::Bluetooth.new(PORT))
     brick.connect()
-    10.times do
-        puts brick.get_sensor(COLOR_SENSOR,2)
-        sleep 1
-    end
+    brick.step_velocity(360,25,100,"B","C")
     puts
 rescue
     p $!
