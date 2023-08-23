@@ -28,7 +28,7 @@ class Controller
     end
 
     def to_next()
-        run_forward()
+        run_right_forward()
         count=0
         color=[]
         floor=0
@@ -40,9 +40,7 @@ class Controller
             floor=@brick.get_sensor(COLOR_SENSOR,2)
             if floor == 1
                 if count%2==0
-                    @brick.stop(true,LEFT_MOTOR)
-                    sleep 1
-                    run_forward()
+                    left_rotate do sleep 0.75 end
                 end
                 count+=1
             else
@@ -56,9 +54,51 @@ class Controller
         return color.sum.fdiv(color.length).round
     end
 
+    def left_turn()
+        cut_back()
+    end
+
+    def cut_back()
+        run_back do sleep 0.25 end
+        @brick.stop(true,*MOTORS)
+        left_rotate do 
+            @brick.speed(LOWER_SPEED*0.125,LEFT_MOTOR)
+            while @brick.get_sensor(COLOR_SENSOR,2)!=1
+            end 
+        end
+        run_back do sleep 0.5 end
+        left_rotate do 
+            @brick.speed(HIGHER_SPEED*0.75,LEFT_MOTOR)
+            while @brick.get_sensor(COLOR_SENSOR,2)!=1
+            end 
+        end
+    end
+
     def run_forward()
         @brick.start(HIGHER_SPEED,*MOTORS)
+    end
+
+    def run_right_forward()
+        @brick.start(HIGHER_SPEED,*MOTORS)
         @brick.speed(LOWER_SPEED,RIGHT_MOTOR)
+    end
+
+    def run_back(&block)
+        @brick.reverse_polarity(*MOTORS)
+        @brick.start(HIGHER_SPEED,*MOTORS)
+        yield
+        @brick.stop(true,*MOTORS)
+        @brick.reverse_polarity(*MOTORS)
+    end    
+    
+    def left_rotate(&block)
+        @brick.stop(true,*MOTORS)
+        @brick.reverse_polarity(LEFT_MOTOR)
+        @brick.start(LOWER_SPEED,*MOTORS)
+        yield
+        @brick.stop(true,*MOTORS)
+        @brick.reverse_polarity(LEFT_MOTOR)
+        run_right_forward()
     end
 
     def close()
