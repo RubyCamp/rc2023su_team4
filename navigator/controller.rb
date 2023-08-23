@@ -27,20 +27,30 @@ class Controller
         @brick.reset(*MOTORS)
     end
 
-    def to_next()
-        run_right_forward()
-        count=0
+    def to_next(first_count=0)
+        count=first_count
         color=[]
         floor=0
 
-        while @brick.get_sensor(COLOR_SENSOR,2) == 1
+        if count==0
+            run_right_forward()
+            while @brick.get_sensor(COLOR_SENSOR,2) == 1
+            end
+        else
+            run_back do sleep 0.5 end
+            left_rotate do
+                sleep 0.325
+            end
+            run_right_forward()
         end
+
 
         loop do
             floor=@brick.get_sensor(COLOR_SENSOR,2)
             if floor == 1
                 if count%2==0
                     left_rotate do sleep 0.75 end
+                    run_right_forward()
                 end
                 count+=1
             else
@@ -55,20 +65,20 @@ class Controller
     end
 
     def left_turn()
-        cut_back()
+        left_cut_back()
+        #run_back do sleep 0.25 end
     end
 
-    def cut_back()
+    def left_cut_back()
         run_back do sleep 0.25 end
         @brick.stop(true,*MOTORS)
         left_rotate do 
-            @brick.speed(LOWER_SPEED*0.125,LEFT_MOTOR)
             while @brick.get_sensor(COLOR_SENSOR,2)!=1
             end 
         end
         run_back do sleep 0.5 end
         left_rotate do 
-            @brick.speed(HIGHER_SPEED*0.75,LEFT_MOTOR)
+            @brick.speed(HIGHER_SPEED*0.125,LEFT_MOTOR)
             while @brick.get_sensor(COLOR_SENSOR,2)!=1
             end 
         end
@@ -98,7 +108,6 @@ class Controller
         yield
         @brick.stop(true,*MOTORS)
         @brick.reverse_polarity(LEFT_MOTOR)
-        run_right_forward()
     end
 
     def close()

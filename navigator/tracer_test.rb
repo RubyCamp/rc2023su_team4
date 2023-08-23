@@ -7,10 +7,20 @@ begin
     controller= Controller.new(EV3::Brick.new(EV3::Connections::Bluetooth.new(PORT)))
     controller.connect()
     colors=[]
-    4.times do
-        colors<< controller.to_next()
+    controller.to_next(1)
+    3.times do
+        controller.to_next()
     end
     controller.left_turn()
+    controller.to_next(1)
+    controller.to_next()
+
+    controller.left_turn()
+    controller.to_next(1)
+    3.times do
+        controller.to_next()
+    end
+    
     print colors
     puts
 rescue
