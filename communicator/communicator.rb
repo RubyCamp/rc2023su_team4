@@ -24,7 +24,7 @@ module Communicator
 
   class Sender
     DISTANCE_SENSOR = "1"
-    PORT = "COM12"
+    PORT = "COM"
 
     def initialize
       @brick = EV3::Brick.new(EV3::Connections::Bluetooth.new(PORT))
@@ -59,7 +59,7 @@ module Communicator
 
   class Receiver
     DISTANCE_SENSOR = "1"
-    PORT = "COM8"
+    PORT = "COM"
     LIMIT = UNIT * 8
 
     def initialize
