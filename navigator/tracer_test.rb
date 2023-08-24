@@ -10,16 +10,38 @@ begin
     colors<< controller.to_next(1,1)
     colors<< controller.to_next()
     colors<< controller.to_next()
+
     controller.left_turn()
-    controller.to_next(2,1)
     colors<< controller.to_next()
     colors<< controller.to_next()
+
     controller.left_turn()
-    controller.to_next(2,1)
     colors<< controller.to_next()
     colors<< controller.to_next()
+
     controller.left_turn()
-    controller.to_next(2,1)
+    colors<< controller.to_next()
+
+    controller.left_turn()
+    colors<< controller.to_next()
+
+    controller.left_turn()
+    colors<< controller.to_next()
+    colors<< controller.to_next()
+
+    controller.left_turn()
+    colors<< controller.to_next()
+
+    controller.left_turn()
+    colors<< controller.to_next()
+    colors<< controller.to_next()
+    colors<< controller.to_next()
+
+    controller.left_turn()
+    colors<< controller.to_next()
+    colors<< controller.to_next()
+
+    controller.left_turn()
     colors<< controller.to_next()
     colors<< controller.to_next()
 

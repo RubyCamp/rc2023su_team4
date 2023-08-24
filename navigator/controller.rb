@@ -87,20 +87,20 @@ class Controller
         puts "左転回：" +rotation.to_s()
         @turn_time=INIT_TURN_TIME
 
-        if rotation>240
-            right_rotate do sleep 0.25 end
-
-            run_back do
-                @brick.speed(5,RIGHT_MOTOR)
-                sleep 0.25
-            end    
-        elsif rotation>280
+        if rotation>280
             right_rotate do sleep 0.5 end
 
             run_back do
                 @brick.speed(5,RIGHT_MOTOR)
                 sleep 0.5
             end 
+        elsif rotation>240
+            right_rotate do sleep 0.25 end
+
+            run_back do
+                @brick.speed(5,RIGHT_MOTOR)
+                sleep 0.25
+            end
         elsif rotation<90
             run_back do sleep 0.5 end
             left_rotate do
@@ -123,6 +123,8 @@ class Controller
                 end
             end
         end
+
+        to_next(2,1)
     end
 
     def run_forward(&block)
