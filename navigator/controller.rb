@@ -6,13 +6,16 @@ class Controller
     LEFT_MOTOR = "C"
     RIGHT_MOTOR = "B"
     COLOR_SENSOR = "4"
-    # PORT = "COM8"
-    HIGHER_SPEED = 24
-    LOWER_SPEED=13.25
+    PORT = "COM3"
+    HIGHER_SPEED = 20
+    LOWER_SPEED=10
     MOTORS = [LEFT_MOTOR, RIGHT_MOTOR]
+    INIT_TURN_TIME=1.075
 
     def initialize(brick)
         @brick=brick
+        @turn_time=INIT_TURN_TIME
+        @interval=0
     end
 
     def connect()
@@ -33,7 +36,7 @@ class Controller
             while @brick.get_sensor(COLOR_SENSOR,2) == 1
             end
         elsif init_turn==0
-            run_back do sleep 0.25 end
+            run_back do sleep 0.75 end
             left_rotate do
                 sleep 0.5
             end
@@ -52,7 +55,9 @@ class Controller
             floor=@brick.get_sensor(COLOR_SENSOR,2)
             if floor == 1
                 if count%2==0
-                    left_rotate do sleep 0.73 end
+                    left_rotate do
+                        sleep @turn_time 
+                    end
                     run_right_forward()
                 end
                 count+=1
@@ -64,11 +69,11 @@ class Controller
                 break
             end
         end
-        return color[color.size/2]
+        return color[color.length/2]
     end
 
     def left_turn()
-        run_back do sleep 0.6 end
+        run_back do sleep 0.4 end
         old=@brick.get_count(RIGHT_MOTOR)
         left_rotate do
             @brick.speed(5,LEFT_MOTOR)
@@ -78,35 +83,47 @@ class Controller
 
         rotation=@brick.get_count(RIGHT_MOTOR)-old
 
-        #回りすぎ
-        if rotation > 300
-            run_forward do
-                @brick.stop(true,RIGHT_MOTOR)
-                while @brick.get_sensor(COLOR_SENSOR,2)==1
-                end
-            end
-            puts "回りすぎ"
+        puts "左転回：" +rotation.to_s()
+        @turn_time=INIT_TURN_TIME
 
-        #転回が足りない
-        elsif rotation < 200
-            run_back do sleep 0.75 end
+        if rotation>280
+            right_rotate do sleep 0.5 end
+
+            run_back do
+                @brick.speed(5,RIGHT_MOTOR)
+                sleep 0.5
+            end 
+        elsif rotation>240
+            right_rotate do sleep 0.4 end
+
+            run_back do
+                @brick.speed(5,RIGHT_MOTOR)
+                sleep 0.25
+            end
+        elsif rotation<90
+            run_back do sleep 0.5 end
             left_rotate do
-                @brick.speed(5,LEFT_MOTOR)
+                @brick.stop(true,LEFT_MOTOR)
                 while @brick.get_sensor(COLOR_SENSOR,2)!=1
                 end
             end
-            puts "転回が足りない"
-
-        #転回が少し足りない
-        elsif rotation< 240
+        elsif rotation<120
+            run_back do sleep 0.4 end
             left_rotate do
-                sleep 0.25
+                @brick.speed(2,LEFT_MOTOR)
+                while @brick.get_sensor(COLOR_SENSOR,2)!=1
+                end
+            end     
+        elsif rotation<180
+            run_back do sleep 0.3 end
+            left_rotate do
+                @brick.speed(2,LEFT_MOTOR)
+                while @brick.get_sensor(COLOR_SENSOR,2)!=1
+                end
             end
-            puts "転回が少し足りない"
         end
 
-        puts rotation
-        run_back do sleep 0.25 end
+        to_next(2,1)
     end
 
     def right_turn()
@@ -161,14 +178,13 @@ class Controller
     end
 
     def right_rotate(&block)
-        @brick.stop(true, *MOTORS)
-        @brick.speed(-LOWER_SPEED, RIGHT_MOTOR)  # 右モーターを負の速度で設定
-        @brick.speed(LOWER_SPEED, LEFT_MOTOR)    # 左モーターを正の速度で設定
+        @brick.stop(true,*MOTORS)
+        @brick.reverse_polarity(RIGHT_MOTOR)
+        @brick.start(LOWER_SPEED,*MOTORS)
         yield
-        @brick.stop(true, *MOTORS)
+        @brick.stop(true,*MOTORS)
+        @brick.reverse_polarity(RIGHT_MOTOR)
     end
-    
-    
 
     def close()
         @brick.stop(false, *MOTORS)

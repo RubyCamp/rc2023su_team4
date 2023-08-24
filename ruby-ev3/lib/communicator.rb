@@ -1,4 +1,5 @@
-﻿require_relative '../ruby-ev3/lib/ev3'
+﻿require_relative 'ev3'
+require_relative '../ruby-ev3/lib/ev3'
 
 module Communicator
   MAPPING = {
