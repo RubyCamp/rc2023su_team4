@@ -1,9 +1,10 @@
+require_relative '../ruby-ev3/lib/communicator'
 begin
   threads = []
-  sender = Communicator::Sender.new
+  sender = Communicator::Sender.new("COM7")
 
   threads << Thread.start do
-    message = val.to_s(16)
+    message = 0x1111.to_s(16)
     puts "send: #{message}"
     sender.send(message)
   end
