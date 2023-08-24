@@ -1,4 +1,4 @@
-﻿require_relative 'ev3/ev3'
+﻿require_relative 'ev3'
 
 module Communicator
   MAPPING = {
@@ -61,8 +61,8 @@ module Communicator
     PORT = "COM"#ポート番号はパソコンに合わせて変更
     LIMIT = UNIT * 8
 
-    def initialize
-      @brick = EV3::Brick.new(EV3::Connections::Bluetooth.new(PORT))
+    def initialize(port)
+      @brick = EV3::Brick.new(EV3::Connections::Bluetooth.new(port))
       @brick.connect
     end
 
