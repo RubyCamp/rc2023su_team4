@@ -3,7 +3,6 @@ require_relative 'controller'
 PORT = "COM3"
 
 def navigate()
-    begin
         puts "starting..."
         controller= Controller.new(EV3::Brick.new(EV3::Connections::Bluetooth.new(PORT)))
         controller.connect()
@@ -64,16 +63,12 @@ def navigate()
             sleep 3
         end
 
-    rescue
-        p $!
-    # 終了処理は必ず実行する
-    ensure
         puts "closing..."
         controller.close()
         puts "finished..."
 
         return output
     end
-end
 
-navigate()
+
+#navigate()
