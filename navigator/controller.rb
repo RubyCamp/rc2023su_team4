@@ -56,9 +56,6 @@ class Controller
                     left_rotate do
                         sleep @turn_time 
                     end
-                    @turn_time+=0.05
-                    @interval=@brick.get_count(LEFT_MOTOR)-@interval
-                    puts "セル間： "+@interval.to_s
                     run_right_forward()
                 end
                 count+=1
@@ -102,7 +99,7 @@ class Controller
                 sleep 0.25
             end
         elsif rotation<90
-            run_back do sleep 0.5 end
+            run_back do sleep 0.55 end
             left_rotate do
                 @brick.stop(true,LEFT_MOTOR)
                 while @brick.get_sensor(COLOR_SENSOR,2)!=1

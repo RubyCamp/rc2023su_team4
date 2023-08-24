@@ -23,27 +23,27 @@ begin
     colors<< controller.to_next()
 
     controller.left_turn()
-    colors<< controller.to_next()
+    controller.to_next()
 
     controller.left_turn()
     colors<< controller.to_next()
     colors<< controller.to_next()
 
     controller.left_turn()
-    colors<< controller.to_next()
+    controller.to_next()
 
     controller.left_turn()
-    colors<< controller.to_next()
-    colors<< controller.to_next()
-    colors<< controller.to_next()
+    controller.to_next()
+    controller.to_next()
+    controller.to_next()
 
     controller.left_turn()
-    colors<< controller.to_next()
-    colors<< controller.to_next()
+    controller.to_next()
+    controller.to_next()
 
     controller.left_turn()
-    colors<< controller.to_next()
-    colors<< controller.to_next()
+    controller.to_next()
+    controller.to_next()
 
     print colors
 rescue
