@@ -24,10 +24,9 @@ module Communicator
 
   class Sender
     DISTANCE_SENSOR = "1"
-    PORT = "COM" #ポート番号はパソコンに合わせて変更
 
-    def initialize
-      @brick = EV3::Brick.new(EV3::Connections::Bluetooth.new(PORT))
+    def initialize(port)
+      @brick = EV3::Brick.new(EV3::Connections::Bluetooth.new(port))
       @brick.connect
     end
 
