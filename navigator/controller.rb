@@ -6,7 +6,7 @@ class Controller
     COLOR_SENSOR = "4"
     PORT = "COM3"
     HIGHER_SPEED = 20
-    LOWER_SPEED=10.25
+    LOWER_SPEED=10
     MOTORS = [LEFT_MOTOR, RIGHT_MOTOR]
     INIT_TURN_TIME=1.075
 
@@ -67,7 +67,7 @@ class Controller
                 break
             end
         end
-        return color[color.size/2]
+        return color[color.length/2]
     end
 
     def left_turn()
@@ -92,14 +92,14 @@ class Controller
                 sleep 0.5
             end 
         elsif rotation>240
-            right_rotate do sleep 0.25 end
+            right_rotate do sleep 0.4 end
 
             run_back do
                 @brick.speed(5,RIGHT_MOTOR)
                 sleep 0.25
             end
         elsif rotation<90
-            run_back do sleep 0.55 end
+            run_back do sleep 0.5 end
             left_rotate do
                 @brick.stop(true,LEFT_MOTOR)
                 while @brick.get_sensor(COLOR_SENSOR,2)!=1
