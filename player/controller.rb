@@ -196,12 +196,12 @@ class Controller
         # @brick.reverse_polarity(LEFT_MOTOR)
 
     def rotate_right_90_degrees()
-        back(100)
+        back(30)
         @brick.run_forward(RIGHT_MOTOR,LEFT_MOTOR)
         @brick.reverse_polarity(RIGHT_MOTOR)
-        @brick.step_velocity(10, 200, 0, RIGHT_MOTOR,LEFT_MOTOR)
+        @brick.step_velocity(10, 190, 0, RIGHT_MOTOR,LEFT_MOTOR)
         @brick.motor_ready(RIGHT_MOTOR,LEFT_MOTOR)
-        front(100)
+        front(50)
     end
 
     def rotate_left_90_degrees()
