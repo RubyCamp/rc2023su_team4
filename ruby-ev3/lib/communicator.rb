@@ -31,8 +31,10 @@ module Communicator
     end
 
     def send(message)
+      p "rrrs"
       @brick.get_sensor(DISTANCE_SENSOR, 2)
       sleep UNIT * 2
+      p "test"
       chars = message.chars
       signals = chars.map{|char| MAPPING[char] }
       signals.each.with_index do |signal, i|
@@ -58,7 +60,7 @@ module Communicator
 
   class Receiver
     DISTANCE_SENSOR = "1"
-    PORT = "COM"#ポート番号はパソコンに合わせて変更
+    #PORT = "COM"#ポート番号はパソコンに合わせて変更
     LIMIT = UNIT * 8
 
     def initialize(port)
