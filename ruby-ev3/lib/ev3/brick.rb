@@ -97,7 +97,7 @@ module EV3
     #
     # degrees: フルスピードでモーターを動かす角度
     # precision: 終盤で減速しつつモーターを動かす角度
-    def step_velocity(velocity, degrees, precision, *motors)
+    def step_velocity(velocity, degrees, precision, *motors)#
       Commands::Output.new(@connection).
         command_type(CommandType::DIRECT_COMMAND_NO_REPLY).
         step_velocity(velocity, degrees, precision, *motors).
@@ -112,7 +112,7 @@ module EV3
     end
 
     # 指定したモーターの回転方向を正方向にする
-    def run_forward(*motors)
+    def run_forward(*motors)#
      Commands::Output.new(@connection).
        command_type(CommandType::DIRECT_COMMAND_NO_REPLY).
        reverse_polarity(1, *motors).
@@ -120,7 +120,7 @@ module EV3
     end
 
     # 指定したモーターの回転方向を反転する
-    def reverse_polarity(*motors)
+    def reverse_polarity(*motors)#
       Commands::Output.new(@connection).
         command_type(CommandType::DIRECT_COMMAND_NO_REPLY).
         reverse_polarity(0, *motors).

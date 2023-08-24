@@ -1,6 +1,6 @@
 begin
   threads = []
-  receiver = Communicator::Receiver.new
+  receiver = Communicator::Receiver.new("COM7")
 
   threads << Thread.start do
     signals = receiver.receive
