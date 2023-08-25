@@ -5,14 +5,8 @@ class Map
   RED_CHIP = 5 
   WHITE_CHIP = 6
 
-  def initialize(map_data_path)
-    @map_data = []
-    #@map_data = instoll_data.each_slide(4).to_a #instoll_dataはev3からの一次元データ
-    File.open(map_data_path) do |f|
-      f.each do |line|
-        @map_data << line.chomp.split(/\s*,\s*/)
-      end
-    end
+  def initialize()
+    @map_data = ([6.0] * 12).each_slice(4).to_a
     @bule_img = Image.load("images/bule.png")
     @green_img = Image.load("images/green.png")
     @red_img = Image.load("images/red.png")
@@ -20,6 +14,10 @@ class Map
   end
 
   def update
+  end
+
+  def update_map_data(install_data)
+    @map_data = install_data.each_slice(4).to_a #instoll_dataはev3からの一次元データ
   end
 
   def draw
